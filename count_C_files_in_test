@@ -1,0 +1,25 @@
+#!/bin/bash
+
+C_files="`find -name *.c`"
+H_files="`find -name *.h`"
+CPP_files="`find -name *.cpp`"
+INK_files="`find -name *.inc`"
+DEF_files="`find -name *.def`"
+HPP_files="`find -name *.hpp`"
+CC_files="`find -name *.cc`"
+CXX_files="`find -name *.cxx`"
+HXX_files="`find -name *.hxx`"
+
+Files="$C_files $H_files $CPP_files $INK_files $DEF_files $HPP_files $CC_files $CXX_files $HXX_files"
+
+Size=0
+Num=0
+for file in $Files;
+do
+  sz=$(stat -c%s "$file")
+  (( Size+= sz ))
+  (( ++Num ))
+done
+
+echo "C/C++ and headers files size = $Size"
+echo "Number of source files = $Num"
