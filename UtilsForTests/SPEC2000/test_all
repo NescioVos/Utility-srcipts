@@ -1,0 +1,35 @@
+#!/bin/bash
+
+tests="164.gzip  175.vpr  176.gcc  181.mcf  186.crafty  197.parser 256.bzip2"
+LIMIT=10
+DIR=$PWD
+
+echo "testing $tests for $LIMIT runs"
+for test in $tests
+do
+  cd "$test/src"
+  export LOPT=""
+  echo "">time_vanilla.log
+  echo "============================="
+  echo "Building test $test "
+  echo "============================="
+  echo "Vanilla run"
+  ./build_as_spec
+  for ((a=1; a <= LIMIT ; a++)) 
+  do
+    { time ./build_as_spec ; }  2>>time_vanilla.log
+  done
+  $DIR/count_time.py time_vanilla.log $test
+  export LOPT="-plugin-opt=lazy-loading"
+  echo "">time_lazy.log
+  echo "============================="
+  echo "Lazy run"
+  for ((a=1; a <= LIMIT ; a++)) 
+  do
+    { time ./build_as_spec ; }  2>>time_lazy.log
+  done
+  $DIR/count_time.py time_lazy.log $test 
+  echo
+  cd $DIR
+done
+

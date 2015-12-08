@@ -1,0 +1,9 @@
+This utilits are for estimating  time and memory usage while running building with LTO.
+This is for running tests separately by hands.
+
+1. To use this scripts, move them to benchspec/CINT2000 or benchspec/CFP2000 in the installed SPEC2000 benchmark directory.
+2. Compile all tests by clang with "-c -flto" flags.
+   To use with lazy loading LTO add "-mllvm -enable-func-descriptors"
+3. Create script "build_as_spec" in <test_name>/src dir.
+4. Run test_all or test_mem to estimate run time or memory usage correspondingly.
+5. Enjoy
