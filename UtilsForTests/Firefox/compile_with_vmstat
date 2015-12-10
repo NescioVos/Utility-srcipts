@@ -1,0 +1,13 @@
+#!/bin/bash
+
+cur_time=`date +%Y.%m.%d.%H.%M`
+logname="memusage.${cur_time}.log"
+vmstat -S K 2 > $logname & ./mach build -v | tee build.log 
+
+sleep 6 
+kill `pidof vmstat`
+
+echo "======================================="
+echo "Compiled! Now you may look memusage.log to check memory utilization."
+echo "You can run count_memusage.py on memusage.log to see memory usage dynamics plotted:"
+echo "/PATH/TO/SCRIPT/count_memusage.py $logname 2"
